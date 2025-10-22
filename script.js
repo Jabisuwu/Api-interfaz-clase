@@ -1,18 +1,15 @@
-async function buscarPokemon() {
-  const nombre = document.getElementById('pokemonInput').value.toLowerCase();
-  const url = `https://pokeapi.co/api/v2/pokemon/${nombre}`;
-  const resultado = document.getElementById('resultado');
+async function mostrarGato() {
+  const img = document.getElementById('gato');
+  img.style.opacity = 0;
 
   try {
-    const res = await fetch(url);
+    const res = await fetch('https://api.thecatapi.com/v1/images/search');
     const data = await res.json();
-    resultado.innerHTML = `
-      <h2>${data.name}</h2>
-      <img src="${data.sprites.front_default}" alt="${data.name}">
-      <p>Altura: ${data.height}</p>
-      <p>Peso: ${data.weight}</p>
-    `;
+    img.src = data[0].url;
+    img.onload = () => {
+      img.style.opacity = 1;
+    };
   } catch (error) {
-    resultado.innerHTML = `<p>Pokémon no encontrado.</p>`;
+    console.error('Error al obtener el gato:', error);
   }
 }
